@@ -129,11 +129,11 @@ public class ExecutorServiceMetrics implements MeterBinder {
      * {@link Executors#newSingleThreadExecutor()} wrap a regular {@link ThreadPoolExecutor}.
      */
     @Nullable
-    private ThreadPoolExecutor unwrapThreadPoolExecutor(ExecutorService executor, Class<?> wrapper) {
+    private static ThreadPoolExecutor unwrapThreadPoolExecutor(ExecutorService executor, Class<?> wrapper) {
         try {
             Field e = wrapper.getDeclaredField("e");
             e.setAccessible(true);
-            return (ThreadPoolExecutor) e.get(executorService);
+            return (ThreadPoolExecutor) e.get(executor);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             // Do nothing. We simply can't get to the underlying ThreadPoolExecutor.
         }
